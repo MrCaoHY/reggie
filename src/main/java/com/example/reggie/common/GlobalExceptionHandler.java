@@ -35,4 +35,21 @@ public class GlobalExceptionHandler {
         }
         return R.error("未知错误");
     }
+
+    /**
+     * 自定义异常处理方法
+     * @author caohaiyang
+     * @date 2022/7/22 21:04
+     * @return com.example.reggie.common.R<java.lang.String>
+     */
+    @ExceptionHandler(CustomException.class)
+    public R<String> exceptionHandler(CustomException ex){
+        log.error(ex.getMessage());
+        if(ex.getMessage().contains("Duplicate entry")){
+            String[] s = ex.getMessage().split(" ");
+            String s1 = s[2] + "已存在";
+            return R.error(s1);
+        }
+        return R.error(ex.getMessage());
+    }
 }

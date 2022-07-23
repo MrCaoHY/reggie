@@ -37,15 +37,15 @@ public class CategoryController {
 
     @ApiOperation("根据id删除分类信息")
     @DeleteMapping
-    public R<String> deleteCategoryById(Integer id) {
+    public R<String> deleteCategoryById(Long id) {
         log.info("删除id为{}的分类信息", id);
-        categoryService.removeById(id);
+        categoryService.remove(id);
         return R.success("删除成功");
     }
 
     @ApiOperation("根据id获取分类信息")
     @GetMapping("/{id}")
-    public R<Category> getCategoryById(@PathVariable("id") Integer id) {
+    public R<Category> getCategoryById(@PathVariable("id") Long id) {
         Category category = categoryService.getById(id);
         log.info("获取id为{}的分类信息", category);
         return R.success(category);
@@ -64,7 +64,7 @@ public class CategoryController {
     public R<String> updateCategory(@RequestBody Category category){
         categoryService.updateById(category);
         log.info("修改分类信息{}",category);
-        return R.success("修改成功");                                                                                                                                     
+        return R.success("修改成功");
     }
 
 }
