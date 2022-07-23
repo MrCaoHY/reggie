@@ -1,5 +1,6 @@
 package com.example.reggie.filter;
 
+import com.example.reggie.common.BaseContext;
 import com.example.reggie.common.R;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +44,8 @@ public class LoginCheckFilter implements Filter {
             return;
         }
         if (request.getSession().getAttribute("employee") != null) {
+            Long empId = (Long) request.getSession().getAttribute("employee");
+            BaseContext.setCurrentId(empId);
             filterChain.doFilter(request, response);
             return;
         }
