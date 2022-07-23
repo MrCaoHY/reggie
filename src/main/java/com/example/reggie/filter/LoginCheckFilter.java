@@ -35,7 +35,8 @@ public class LoginCheckFilter implements Filter {
                 "/employee/login",
                 "/backend/**",
                 "/front/**",
-                "/swagger-ui/**"
+                "/swagger-ui/**",
+                "swagger3/**"
         };
         boolean check = check(urls, requestURI);
         //如果已经登录直接放行

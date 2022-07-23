@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,8 +18,7 @@ import lombok.Setter;
  * @author chy
  * @since 2022-07-21
  */
-@Getter
-@Setter
+@Data
 @TableName("user")
 @ApiModel(value = "User对象", description = "用户信息")
 public class User implements Serializable {

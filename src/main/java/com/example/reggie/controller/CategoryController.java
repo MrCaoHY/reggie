@@ -64,7 +64,7 @@ public class CategoryController {
     public R<String> updateCategory(@RequestBody Category category){
         categoryService.updateById(category);
         log.info("修改分类信息{}",category);
-        return R.success("修改成功");
+        return R.success("修改成功");                                                                                                                                     
     }
 
 }

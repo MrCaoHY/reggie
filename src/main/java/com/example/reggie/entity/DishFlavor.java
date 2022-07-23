@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,8 +19,7 @@ import lombok.Setter;
  * @author chy
  * @since 2022-07-21
  */
-@Getter
-@Setter
+@Data
 @TableName("dish_flavor")
 @ApiModel(value = "DishFlavor对象", description = "菜品口味关系表")
 public class DishFlavor implements Serializable {

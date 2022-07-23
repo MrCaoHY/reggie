@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,8 +20,7 @@ import lombok.Setter;
  * @author chy
  * @since 2022-07-21
  */
-@Getter
-@Setter
+@Data
 @TableName("dish")
 @ApiModel(value = "Dish对象", description = "菜品管理")
 public class Dish implements Serializable {
