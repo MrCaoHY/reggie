@@ -1,0 +1,42 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: reggie
+  datasource:
+    url: jdbc:mysql://localhost:3306/reggie1
+    username: root
+    password: 123456
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      minimum-idle: 10
+      maximum-pool-size: 20
+      idle-timeout: 500000
+      max-lifetime: 540000
+      connection-timeout: 60000
+      connection-test-query: SELECT 1
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: 123456
+    database: 0
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: AUTO
+
+management:
+  endpoints:
+   web:
+     base-path: /actuator
+     exposure:
+       include: '*'
+  endpoint:
+    health:
+         show-details: always
+    shutdown:
+      enabled: true
