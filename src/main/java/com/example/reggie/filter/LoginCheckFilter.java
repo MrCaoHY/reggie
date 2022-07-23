@@ -33,9 +33,9 @@ public class LoginCheckFilter implements Filter {
         //不需要处理的请求路径
         String[] urls = new String[]{
                 "/employee/login",
-                "/employee/logout",
                 "/backend/**",
-                "/front/**"
+                "/front/**",
+                "/swagger-ui/**"
         };
         boolean check = check(urls, requestURI);
         //如果已经登录直接放行
