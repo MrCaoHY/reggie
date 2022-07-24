@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @program: reggie
  * @description: 分类管理
@@ -67,4 +69,12 @@ public class CategoryController {
         return R.success("修改成功");
     }
 
+    @ApiOperation("获取所有type获取分类列表")
+    @GetMapping("/list")
+    public R<List<Category>> list(int type){
+        LambdaQueryWrapper<Category> categoryLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        categoryLambdaQueryWrapper.eq(Category::getType,type);
+        List<Category> list = categoryService.list(categoryLambdaQueryWrapper);
+        return R.success(list);
+    }
 }

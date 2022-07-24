@@ -31,12 +31,24 @@ mybatis-plus:
 
 management:
   endpoints:
-   web:
-     base-path: /actuator
-     exposure:
-       include: '*'
+    web:
+      base-path: /actuator
+      exposure:
+        include: '*'
   endpoint:
     health:
-         show-details: always
+      show-details: always
     shutdown:
       enabled: true
+
+#fastdfs服务配置
+fdfs:
+  soTimeout: 1500		# socket连接超时时长
+  connectTimeout: 600		# 连接tracker服务器超时时长
+  reqHost: 150.158.214.34 # nginx访问地址
+  reqPort: 8888         # nginx访问端口
+  # 缩略图的宽高
+  thumbImage:
+    width: 150
+    height: 150
+  trackerList: 150.158.214.34:22122 # tracker服务配置地址列表，替换成自己服务的IP地址，支持多个
