@@ -71,9 +71,10 @@ public class CategoryController {
 
     @ApiOperation("获取所有type获取分类列表")
     @GetMapping("/list")
-    public R<List<Category>> list(int type){
+    public R<List<Category>> list(Category category){
         LambdaQueryWrapper<Category> categoryLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        categoryLambdaQueryWrapper.eq(Category::getType,type);
+        categoryLambdaQueryWrapper.eq(category.getType() !=null,Category::getType,category.getType());
+        categoryLambdaQueryWrapper.orderByAsc(Category::getSort).orderByDesc(Category::getUpdateTime);
         List<Category> list = categoryService.list(categoryLambdaQueryWrapper);
         return R.success(list);
     }
