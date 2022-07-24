@@ -3,6 +3,7 @@ package com.example.reggie.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.reggie.common.R;
+import com.example.reggie.entity.Dish;
 import com.example.reggie.entity.Setmeal;
 import com.example.reggie.service.SetmealService;
 import io.swagger.annotations.ApiOperation;
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,5 +39,10 @@ public class SetmealController {
         setmealLambdaQueryWrapper.orderByDesc(Setmeal::getUpdateTime);
         setmealService.page(setmealPage,setmealLambdaQueryWrapper);
         return R.success(setmealPage);
+    }
+    @GetMapping("/{id}")
+    public R<Setmeal> getSetmealById(@PathVariable("id") long id){
+        Setmeal setmeal = setmealService.getById(id);
+        return R.success(setmeal);
     }
 }

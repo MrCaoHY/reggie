@@ -90,7 +90,7 @@ public class FastFileStorageClientUtil {
             log.info("上传文件可访问路径：" + fileUrl);
             //上传文件路径
 //            return fileUrl;
-            return storePath.getFullPath();
+            return storePath.getPath();
         } catch (IOException e) {
             log.error("文件上传失败：" + e.getMessage());
             //throw new CustomException("文件上传失败：" + e.getMessage());
@@ -150,19 +150,16 @@ public class FastFileStorageClientUtil {
     public InputStream download(String groupName, String path) {
         InputStream ins = null;
         try {
-            ins = storageClient.downloadFile(groupName, path, new DownloadCallback<InputStream>() {
-                @Override
-                public InputStream recv(InputStream ins) throws IOException {
-                    // 将此ins返回给上面的ins
-                    return ins;
-                }
+            ins = storageClient.downloadFile(groupName, path, inputStream -> {
+                // 将此ins返回给上面的ins
+                return inputStream;
             });
+            return ins;
         } catch (FdfsServerException e) {
             //不起作用
             log.error("文件不存在，下载失败：" + e.getErrorCode());
             throw new CustomException("文件不存在，下载失败：" + e.getErrorCode());
         }
-        return null;
     }
 
     /*******************************************删除文件**********************************************************/
