@@ -65,11 +65,13 @@ public class DishController {
         return R.success(dishDtoPage);
     }
 
-    @ApiOperation("获取该分类的菜品")
+    @ApiOperation("获取该分类的菜品,可售状态")
     @GetMapping("/list")
-    public R<List<Dish>> list(long categoryId) {
+    public R<List<Dish>> list(Dish dish) {
         LambdaQueryWrapper<Dish> dishLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        dishLambdaQueryWrapper.eq(Dish::getCategoryId,categoryId);
+        dishLambdaQueryWrapper.eq(dish.getCategoryId()!=null,Dish::getCategoryId,dish.getCategoryId());
+        dishLambdaQueryWrapper.eq(Dish::getStatus,1);
+        dishLambdaQueryWrapper.orderByDesc(Dish::getUpdateTime);
         List<Dish> list = dishService.list(dishLambdaQueryWrapper);
         return R.success(list);
     }
@@ -98,7 +100,7 @@ public class DishController {
 
     @ApiOperation("修改菜品状态")
     @PostMapping("/status/{state}")
-    public R<String> modifyStatus(@PathVariable("state") int state, Long[] ids){
+    public R<String> modifyStatus(@PathVariable("state") int state, @RequestParam List<Long> ids){
         log.info("根据id修改菜品的状态:{},id为：{}", state, ids);
         LambdaUpdateWrapper<Dish> dishLambdaUpdateWrapper = new LambdaUpdateWrapper<>();
         dishLambdaUpdateWrapper.set(Dish::getStatus,state).in(Dish::getId,ids);
@@ -108,7 +110,7 @@ public class DishController {
 
     @ApiOperation("删除菜品信息")
     @DeleteMapping
-    public R<String> delete(Long[] ids){
+    public R<String> delete(@RequestParam List<Long> ids){
         log.info("删除菜品信息，ids:{}",ids);
         dishService.removeBatchByIds(Arrays.asList(ids));
         LambdaQueryWrapper<DishFlavor> dishFlavorLambdaQueryWrapper = new LambdaQueryWrapper<>();
