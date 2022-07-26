@@ -81,7 +81,7 @@ public class AddressBook implements Serializable {
 
     @ApiModelProperty("默认 0 否 1是")
     @TableField("is_default")
-    private Boolean isDefault;
+    private Integer isDefault;
 
     @ApiModelProperty("创建时间")
     @TableField(value = "create_time",fill = FieldFill.INSERT)
