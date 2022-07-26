@@ -5,6 +5,7 @@ import com.example.reggie.common.R;
 import com.example.reggie.entity.User;
 import com.example.reggie.service.UserService;
 import com.example.reggie.utils.ValidateCodeUtils;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -66,4 +67,12 @@ public class UserController {
         }
         return R.error("登录失败");
     }
+
+    @ApiOperation("退出登录")
+    @PostMapping("/logout")
+    public R<String> logout(HttpSession session){
+        session.removeAttribute("user");
+        return R.success("退出登录成功");
+    }
+
 }

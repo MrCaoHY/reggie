@@ -539,7 +539,18 @@
               const dialogFlavor = this.dialogFlavor
               let flag = true
               let dishFlavor = []
+              // let flavors = dialogFlavor.flavors
+              // for (let i = 0; i < flavors.length-1; ++i) {
+              //   if(flavors[i].dishFlavor){
+              //     dishFlavor.push(flavors[i].dishFlavor)
+              //   }else{
+              //     flag = false
+              //     Notify({ type: 'warning', message: '请选择'+ item.name });
+              //   }
+              // }
               dialogFlavor.flavors.forEach(item=>{
+                console.log(dialogFlavor.flavors)
+                console.log(item.dishFlavor)
                 if(item.dishFlavor){
                   dishFlavor.push(item.dishFlavor)
                 }else{
@@ -558,7 +569,6 @@
                 })
                 this.dialogFlavor.show = false
               }
-              
             },
             //网络图片路径转换
             imgPathConvert(path){

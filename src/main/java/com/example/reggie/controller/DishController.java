@@ -67,13 +67,30 @@ public class DishController {
 
     @ApiOperation("获取该分类的菜品,可售状态")
     @GetMapping("/list")
-    public R<List<Dish>> list(Dish dish) {
+    public R<List<DishDto>> list(Dish dish) {
         LambdaQueryWrapper<Dish> dishLambdaQueryWrapper = new LambdaQueryWrapper<>();
         dishLambdaQueryWrapper.eq(dish.getCategoryId()!=null,Dish::getCategoryId,dish.getCategoryId());
         dishLambdaQueryWrapper.eq(Dish::getStatus,1);
         dishLambdaQueryWrapper.orderByDesc(Dish::getUpdateTime);
         List<Dish> list = dishService.list(dishLambdaQueryWrapper);
-        return R.success(list);
+
+        List<DishDto> collect = list.stream().map((item) -> {
+            DishDto dishDto = new DishDto();
+            BeanUtils.copyProperties(item, dishDto);
+            Long categoryId = item.getCategoryId();
+            Category category = categoryService.getById(categoryId);
+            if (category != null) {
+                String categoryName = category.getName();
+                dishDto.setCategoryName(categoryName);
+            }
+            Long dishId = item.getId();
+            LambdaQueryWrapper<DishFlavor> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+            lambdaQueryWrapper.eq(DishFlavor::getDishId, dishId);
+            List<DishFlavor> dishFlavorList = dishFlavorService.list(lambdaQueryWrapper);
+            dishDto.setFlavors(dishFlavorList);
+            return dishDto;
+        }).collect(Collectors.toList());
+        return R.success(collect);
     }
 
     @ApiOperation("根据id获取菜品信息")
