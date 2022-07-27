@@ -18,6 +18,8 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -65,13 +67,14 @@ public class SetmealController {
 
     @ApiOperation("删除套餐")
     @DeleteMapping
+    @CacheEvict(value = "setmealCache",allEntries = true) //清除setmealCache名称下,所有的缓存数据
     public R<String> delete(@RequestParam List<Long> ids) {
         log.info("删除套餐{}", ids);
         setmealService.removeWithDish(ids);
         return R.success("删除套餐成功");
     }
 
-    @ApiOperation("分页获取套餐西信息")
+    @ApiOperation("分页获取套餐信息")
     @GetMapping("/page")
     public R<Page> page(int page, int pageSize, String name) {
         Page<Setmeal> setmealPage = new Page<>(page, pageSize);
@@ -122,6 +125,7 @@ public class SetmealController {
 
     @ApiOperation("获取该分类的套餐,可售状态")
     @GetMapping("/list")
+    @Cacheable(value = "setmealCache", key = "'setmeal_'+#setmeal.categoryId + '_' + #setmeal.status")
     public R<List<Setmeal>> list(Setmeal setmeal) {
         LambdaQueryWrapper<Setmeal> setmealLambdaQueryWrapper = new LambdaQueryWrapper<>();
         setmealLambdaQueryWrapper.eq(Setmeal::getCategoryId, setmeal.getCategoryId());

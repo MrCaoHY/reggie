@@ -5,6 +5,7 @@ import com.example.reggie.entity.DishFlavor;
 import io.swagger.models.auth.In;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import java.util.List;
  * @create: 2022-07-24 22:23
  **/
 @Data
-public class DishDto extends Dish {
+public class DishDto extends Dish implements Serializable {
     private List<DishFlavor> flavors = new ArrayList<>();
     private String categoryName;
     private Integer copies;
