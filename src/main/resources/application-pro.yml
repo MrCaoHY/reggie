@@ -1,0 +1,87 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: reggie
+  # 配置读写分离
+  shardingsphere:
+    datasource:
+      names:
+        master, slave
+      #主数据源
+      master:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://150.158.214.34:3306/reggie1
+        username: root
+        password: 123456
+        maxPoolSize: 100
+        minPoolSize: 5
+      # 从数据源
+      slave:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        jdbc-url: jdbc:mysql://150.158.214.34:3307/reggie1
+        username: root
+        password: 123456
+        maxPoolSize: 100
+        minPoolSize: 5
+    props:
+      sql:
+        show: true #开启SQL显示，默认false
+    masterslave:
+      # 读写分离配置
+      load-balance-algorithm-type: round_robin #轮询
+      # 最终的数据源名称
+      name: dataSource
+      # 主库数据源名称
+      master-data-source-name: master
+      # 从库数据源名称列表，多个逗号分隔
+      slave-data-source-names: slave
+  main:
+    allow-bean-definition-overriding: true
+
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: 123456
+    database: 0
+  cache:
+    redis:
+      time-to-live: 1800000 #可选
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: AUTO
+
+#actuator监控配置
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+    shutdown:
+      enabled: true
+
+#fastdfs服务配置
+fdfs:
+  soTimeout: 1500		# socket连接超时时长
+  connectTimeout: 600		# 连接tracker服务器超时时长
+  reqHost: 150.158.214.34 # nginx访问地址
+  reqPort: 8888         # nginx访问端口
+  # 缩略图的宽高
+  thumbImage:
+    width: 150
+    height: 150
+  trackerList: 150.158.214.34:22122 # tracker服务配置地址列表，替换成自己服务的IP地址，支持多个
+
+
+
